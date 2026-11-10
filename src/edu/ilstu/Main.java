@@ -1,7 +1,7 @@
 package edu.ilstu;
 import java.io.File;
 import java.io.FileNotFoundException;
-import javax.swing.JFileChooser;
+import javax.swing.*;
 
 public class Main {
     
@@ -9,13 +9,44 @@ public class Main {
         //initilizes the JFileChoose that allows a user to pick a file from their system
         JFileChooser fileChooser = new JFileChooser();
 
-        //opens the "file open" window
-        int userSelection = fileChooser.showOpenDialog(null);
+        //prompt window; requests a .eml file from user
+        JOptionPane.showMessageDialog(
+                null,
+                "Please enter a .eml file to be scanned.",
+                "Email Scanner",
+                JOptionPane.INFORMATION_MESSAGE
+        );
 
-        //if statement to check if the user picked a valid file
+        //while statement to check if the user picked a valid file and loop file request otherwise
         //if the file is valid, the Reader will read the file and print the details of the email
-        if(userSelection == JFileChooser.APPROVE_OPTION){
-            File selectedFile = fileChooser.getSelectedFile();
+        File selectedFile = null;
+        boolean validFile = false;
+
+        while (!validFile) {
+            //opens the "file selection" window
+           int userSelection = fileChooser.showOpenDialog(null);
+
+           //allows user to exit
+            if (userSelection != JFileChooser.APPROVE_OPTION){
+                break;
+            }
+
+            selectedFile = fileChooser.getSelectedFile();
+
+            //checks if file ends in .eml
+            if (selectedFile.getName().toLowerCase().endsWith(".eml")) { validFile = true;
+             } else {
+                 JOptionPane.showMessageDialog(
+                     null,
+                      "Invalid file type. Please enter a .eml file.",
+                     "Invalid File Type",
+                     JOptionPane.ERROR_MESSAGE
+                 );
+             }
+
+        }   if(validFile) {
+            selectedFile = fileChooser.getSelectedFile();
+
         Reader email = new Reader(selectedFile.getAbsolutePath());
 
         //prints email details
