@@ -147,10 +147,20 @@ public class Main {
 
             // prints security level and AI response
             responseArea.setText(
-                    "SECURITY LEVEL: " + securityLevel + "\n\n"
-                            + reason + "\n\n"
+                    "================ PARSED EMAIL DETAILS ================\n\n"
+                            + "Sender: " + email.getSender() + "\n"
+                            + "Receiver: " + email.getReciever() + "\n"
+                            + "Subject: " + email.getSubject() + "\n"
+                            + "Date: " + email.getDate() + "\n"
+                            + "Content: " + email.getContent() + "\n\n"
+
+                            + "================ TECHNICAL RED FLAGS ================\n\n"
+                                + "Security Flags Detected: " + flags + "\n\n"
+
                             + "================ AI PHISHING ANALYSIS ================\n\n"
-                            + aiResponse
+                                + "SECURITY LEVEL: " + securityLevel + "\n\n"
+                                + reason + "\n\n"
+                                + aiResponse
             );
 
 
