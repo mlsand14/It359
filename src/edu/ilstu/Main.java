@@ -9,6 +9,26 @@ public class Main {
         //initilizes the JFileChoose that allows a user to pick a file from their system
         JFileChooser fileChooser = new JFileChooser();
 
+        // Creates a window that welcomes the user to the email program
+        int welcome = JOptionPane.showOptionDialog(
+                null,
+        "Welcome our IT359 project - an email scanner!\n\n"
+                + "This program analyzes email files (.eml) "
+                + "for potential phishing threats and returns an AI analysis of the email contents. \n\n"
+                + "Click continue to begin scanning an email.",
+        "Welcome",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.INFORMATION_MESSAGE,
+        null,
+        new String[]{"Continue"},
+                "Continue"
+        );
+
+        //exits program if user clicks X button
+        if (welcome != 0) {
+            System.exit(0);
+        }
+
         //prompt window; requests a .eml file from user
         JOptionPane.showMessageDialog(
                 null,
