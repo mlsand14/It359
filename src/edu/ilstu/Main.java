@@ -136,11 +136,39 @@ public class Main {
                 securityLevel = "Safe"; reason= "No technical anomalies or phishing language found.";
             }
 
-            //prints the ai's response
-         System.out.println("\n================ AI PHISHING ANALYSIS ================");
-         System.out.println("Security Level: " + securityLevel);   
-         System.out.println(aiResponse);
+            // prints the AI's response to the console
+            System.out.println("\n================ AI PHISHING ANALYSIS ================");
+            System.out.println("Security Level: " + securityLevel);
+            System.out.println(aiResponse);
             System.out.println("=======================================================");
+
+            // AI analysis dialog box
+            JTextArea responseArea = new JTextArea();
+
+            // prints security level and AI response
+            responseArea.setText(
+                    "SECURITY LEVEL: " + securityLevel + "\n\n"
+                            + reason + "\n\n"
+                            + "================ AI PHISHING ANALYSIS ================\n\n"
+                            + aiResponse
+            );
+
+
+            responseArea.setEditable(false);
+            responseArea.setLineWrap(true);
+            responseArea.setWrapStyleWord(true);
+            responseArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
+            responseArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
+            JScrollPane scrollPane = new JScrollPane(responseArea);
+            scrollPane.setPreferredSize(new java.awt.Dimension(550, 400));
+
+            // Displays AI response result
+            JOptionPane.showMessageDialog(
+                    null,
+                    scrollPane,
+                    "AI Phishing Analysis Results",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
 
             //if the user did not select a file
         }else{
