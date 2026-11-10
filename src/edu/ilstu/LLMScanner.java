@@ -21,6 +21,7 @@ public class LLMScanner {
             //combines input into a single string to get rid of any unneccessary characters or line breaks to keep proper formatting
             String safeText = "Sender: " + clean(sender) + " | Subject: " + clean(subject) + " | Body: " + clean(body);
 
+            String instructions = "You are a cybersecurity expert. Is this email phishing? Begin your response with 'VERDICT: PHISHING' or 'VERDICT: LEGITIMATE', then explain your reasoning in detail.";
         
             //contructing an openai format json payload
             /*model to specify llama 3.1, messages to define the instructions given to ai and the email data from user
@@ -29,11 +30,11 @@ public class LLMScanner {
             String json = "{"
                 + "\"model\":\"" + MODEL_NAME + "\","
                 + "\"messages\":["
-                + "{\"role\":\"system\",\"content\":\"You are a cybersecurity expert. Is this email phishing? Explain.\"},"
+                + "{\"role\":\"system\",\"content\":\"" + clean(instructions) + "\"},"
                 + "{\"role\":\"user\",\"content\":\"" + safeText + "\"}"
                 + "],"
                 + "\"stream\":false," 
-                + "\"temperature\":0.7"
+                + "\"temperature\":0.3"
                 + "}";
 
             //intilizes httpclient so that it is strictly set to http/1.1
@@ -75,7 +76,7 @@ public class LLMScanner {
         return text.replaceAll("[\"\\\\\n\r\t]", " ").trim();
     }
 
-    //method to extract only the ai's response and gets rid of any unnecessary metadata detail
+    //method to extract only the ai's response and gets rid of any unnecessary metadata details
     private static String parseAiResponse(String json) {
     try {
         //locates the start of the content
@@ -92,6 +93,7 @@ public class LLMScanner {
             end = json.indexOf("\"},", start);
         }
         
+        //find the end of the ai text and removes any metadata from the end
         if (end == -1) {
             int objectKey = json.indexOf(",\"object\"");
             if (objectKey != -1) {
@@ -101,7 +103,7 @@ public class LLMScanner {
 
         //validation for if the start and end indexes fail
        if (end == -1 || end <= start) {
-            return "Error parsing AI text. Raw data: " + json;
+            return "Error parsing text";
         }
 
         //extracts ai response text
